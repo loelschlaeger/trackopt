@@ -6,6 +6,8 @@
 \alias{trackopt-package}
 \title{trackopt: Track Numerical Optimization}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Tracks parameter values, gradients, and Hessians at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
 }
 \seealso{

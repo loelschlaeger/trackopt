@@ -159,16 +159,10 @@ autoplot.trackopt_1d <- function(object, iteration, xlim, ...) {
       hessian_info <- paste("\nHessian:", format(round(hessian_value, 2), scientific = FALSE))
     }
   }
-  ggplot2::ggplot() +
+  ggplot2::ggplot(data = data, mapping = ggplot2::aes(x = parameter, y = value)) +
     ggplot2::geom_function(fun = function(x) sapply(x, f), xlim = xlim) +
-    ggplot2::geom_point(
-      data = data,
-      ggplot2::aes(x = parameter, y = value), color = "red", size = 2
-    ) +
-    ggplot2::geom_path(
-      data = data,
-      ggplot2::aes(x = parameter, y = value), color = "red"
-    ) +
+    ggplot2::geom_point(color = "red", size = 2) +
+    ggplot2::geom_path(color = "red") +
     ggplot2::scale_x_continuous(limits = xlim) +
     ggplot2::labs(
       x = target_name,
@@ -212,19 +206,10 @@ autoplot.trackopt_2d <- function(object, iteration, xlim, xlim2, ...) {
       hessian_info <- paste("\nHessian determinant:", format(round(det(hessian_value), 2), scientific = FALSE))
     }
   }
-  ggplot2::ggplot() +
-    ggplot2::geom_contour_filled(
-      data = grid,
-      aes(x = x, y = y, z = z)
-    ) +
-    ggplot2::geom_point(
-      data = data_plot,
-      ggplot2::aes(x = x, y = y)
-    ) +
-    ggplot2::geom_path(
-      data = data_plot,
-      ggplot2::aes(x = x, y = y)
-    ) +
+  ggplot2::ggplot(data = data_plot, mapping = ggplot2::aes(x = x, y = y)) +
+    ggplot2::geom_contour_filled(data = grid, aes(x = x, y = y, z = z)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_path() +
     ggplot2::scale_x_continuous(limits = xlim) +
     ggplot2::scale_y_continuous(limits = xlim2) +
     ggplot2::labs(

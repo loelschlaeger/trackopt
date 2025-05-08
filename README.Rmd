@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Track numerical optimization
+# Track numerical optimization <a href="https://loelschlaeger.de/trackopt/"><img src="man/figures/logo.png" align="right" height="124" alt="trackopt website" /></a>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/trackopt)](https://CRAN.R-project.org/package=trackopt)

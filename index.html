@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Track numerical optimization">
-<meta name="description" content="Tracks parameter values, gradients, and Hessians at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.">
-<meta property="og:description" content="Tracks parameter values, gradients, and Hessians at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.">
+<meta name="description" content="Tracks parameter value, gradient, and Hessian at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.">
+<meta property="og:description" content="Tracks parameter value, gradient, and Hessian at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.">
 <meta property="og:image" content="https://loelschlaeger.de/trackopt/logo.png">
 </head>
 <body>
@@ -54,7 +54,7 @@
 </div>
 <!-- badges: start -->
 
-<p>The <a href="https://github.com/loelschlaeger/trackopt" class="external-link">trackopt</a> package tracks parameter values, gradients, and Hessians at each iteration of numerical optimizers in <code>R</code>. This can be useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.</p>
+<p>The <a href="https://github.com/loelschlaeger/trackopt" class="external-link">trackopt</a> package tracks parameter value, gradient, and Hessian at each iteration of numerical optimizers in <code>R</code>. This can be useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -75,26 +75,26 @@
 <span><span class="co">#&gt;    iteration         value     step parameter gradient  hessian        seconds</span></span>
 <span><span class="co">#&gt;  *     &lt;dbl&gt;         &lt;dbl&gt;    &lt;dbl&gt; &lt;list&gt;    &lt;list&gt;    &lt;list&gt;           &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt;  1         0 170            0       &lt;dbl [2]&gt; &lt;dbl [1]&gt; &lt;dbl [1]&gt;     0       </span></span>
-<span><span class="co">#&gt;  2         1  47.4         -1.23e+2 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.0247  </span></span>
-<span><span class="co">#&gt;  3         2  14.0         -3.34e+1 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00119 </span></span>
-<span><span class="co">#&gt;  4         3   4.91        -9.08e+0 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00122 </span></span>
-<span><span class="co">#&gt;  5         4   2.26        -2.65e+0 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00127 </span></span>
-<span><span class="co">#&gt;  6         5   0.951       -1.31e+0 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00110 </span></span>
-<span><span class="co">#&gt;  7         6   0.272       -6.79e-1 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00102 </span></span>
-<span><span class="co">#&gt;  8         7   0.0650      -2.07e-1 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000993</span></span>
-<span><span class="co">#&gt;  9         8   0.0168      -4.82e-2 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000989</span></span>
-<span><span class="co">#&gt; 10         9   0.00400     -1.28e-2 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000997</span></span>
-<span><span class="co">#&gt; 11        10   0.000948    -3.06e-3 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000997</span></span>
-<span><span class="co">#&gt; 12        11   0.000221    -7.28e-4 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00100 </span></span>
-<span><span class="co">#&gt; 13        12   0.0000512   -1.69e-4 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00107 </span></span>
-<span><span class="co">#&gt; 14        13   0.0000118   -3.94e-5 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00100 </span></span>
-<span><span class="co">#&gt; 15        14   0.00000275  -9.05e-6 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00101 </span></span>
-<span><span class="co">#&gt; 16        15   0.000000628 -2.13e-6 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00166 </span></span>
-<span><span class="co">#&gt; 17        16   0.000000152 -4.76e-7 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00102</span></span>
+<span><span class="co">#&gt;  2         1  47.4         -1.23e+2 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.0262  </span></span>
+<span><span class="co">#&gt;  3         2  14.0         -3.34e+1 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00121 </span></span>
+<span><span class="co">#&gt;  4         3   4.91        -9.08e+0 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00163 </span></span>
+<span><span class="co">#&gt;  5         4   2.26        -2.65e+0 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00121 </span></span>
+<span><span class="co">#&gt;  6         5   0.951       -1.31e+0 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00101 </span></span>
+<span><span class="co">#&gt;  7         6   0.272       -6.79e-1 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000975</span></span>
+<span><span class="co">#&gt;  8         7   0.0650      -2.07e-1 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000962</span></span>
+<span><span class="co">#&gt;  9         8   0.0168      -4.82e-2 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000993</span></span>
+<span><span class="co">#&gt; 10         9   0.00400     -1.28e-2 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00103 </span></span>
+<span><span class="co">#&gt; 11        10   0.000948    -3.06e-3 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000979</span></span>
+<span><span class="co">#&gt; 12        11   0.000221    -7.28e-4 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00192 </span></span>
+<span><span class="co">#&gt; 13        12   0.0000512   -1.69e-4 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00101 </span></span>
+<span><span class="co">#&gt; 14        13   0.0000118   -3.94e-5 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.00114 </span></span>
+<span><span class="co">#&gt; 15        14   0.00000275  -9.05e-6 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000990</span></span>
+<span><span class="co">#&gt; 16        15   0.000000628 -2.13e-6 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000982</span></span>
+<span><span class="co">#&gt; 17        16   0.000000152 -4.76e-7 &lt;dbl [2]&gt; &lt;dbl [2]&gt; &lt;dbl [2 × 2]&gt; 0.000979</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">track</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Iterations: 16</span></span>
 <span><span class="co">#&gt; Function improvement: 170 -&gt; 1.521e-07</span></span>
-<span><span class="co">#&gt; Computation time: 0.04125 seconds</span></span>
+<span><span class="co">#&gt; Computation time: 0.04317 seconds</span></span>
 <span><span class="co">#&gt; Initial parameter: 0, 0</span></span>
 <span><span class="co">#&gt; Final parameter: 3, 2</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">track</span><span class="op">)</span></span></code></pre></div>

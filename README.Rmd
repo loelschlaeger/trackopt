@@ -1,0 +1,50 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# Track numerical optimization
+
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/trackopt)](https://CRAN.R-project.org/package=trackopt)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/trackopt)](https://CRAN.R-project.org/package=trackopt)
+[![R-CMD-check](https://github.com/loelschlaeger/trackopt/workflows/R-CMD-check/badge.svg)](https://github.com/loelschlaeger/trackopt/actions)
+[![Codecov test coverage](https://codecov.io/gh/loelschlaeger/trackopt/branch/main/graph/badge.svg)](https://app.codecov.io/gh/loelschlaeger/trackopt?branch=main)
+<!-- badges: end -->
+
+The `{trackopt}` package tracks parameter values, gradients, and Hessians at each iteration  of numerical optimizers in `R`. This can be useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
+
+## Installation
+
+You can install the released package version from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("trackopt")
+```
+
+## Example
+
+The following is the `nlm` minimization track of the [Himmelblau's function](https://en.wikipedia.org/wiki/Himmelblau%27s_function):
+
+```{r, message = FALSE}
+library("trackopt")
+himmelblau <- function(x) (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
+track <- nlm_track(f = himmelblau, p = c(0, 0))
+print(track)
+summary(track)
+ggplot2::autoplot(track)
+```
+
+## Contact
+
+If you have any questions, found a bug, need a feature, [just file an issue on GitHub](https://github.com/loelschlaeger/trackopt/issues/new/choose). 

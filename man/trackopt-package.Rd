@@ -8,6 +8,14 @@
 \description{
 Tracks parameter values, gradients, and Hessians at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/loelschlaeger/trackopt}
+  \item Report bugs at \url{https://github.com/loelschlaeger/trackopt/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Lennart Oelschläger \email{oelschlaeger.lennart@gmail.com}
 

@@ -14,8 +14,8 @@ Imports:
     checkmate,
     cli,
     ggplot2,
-    oeli (>= 0.7.2),
-    optimizeR (>= 1.2.0),
+    oeli,
+    optimizeR,
     stats,
     tibble,
     utils

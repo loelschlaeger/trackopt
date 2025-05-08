@@ -36,13 +36,21 @@ install.packages("trackopt")
 
 The following is the `nlm` minimization track of the [Himmelblau's function](https://en.wikipedia.org/wiki/Himmelblau%27s_function):
 
-```{r, message = FALSE}
+```{r himmelblau, message = FALSE}
 library("trackopt")
 himmelblau <- function(x) (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
 track <- nlm_track(f = himmelblau, p = c(0, 0))
 print(track)
 summary(track)
 ggplot2::autoplot(track)
+```
+
+The following is the `optim` maximization track of the [Beta-PDF](https://en.wikipedia.org/wiki/Beta_distribution):
+
+```{r beta, message = FALSE}
+optim_track(
+  f = dbeta, p = 0, lower = 0, upper = 1, shape1 = 4, shape2 = 2, method = "Brent", minimize = FALSE
+) |> ggplot2::autoplot()
 ```
 
 ## Contact

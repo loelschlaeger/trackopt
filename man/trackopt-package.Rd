@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Tracks parameter values, gradients, and Hessians at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
+Tracks parameter value, gradient, and Hessian at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
 }
 \seealso{
 Useful links:

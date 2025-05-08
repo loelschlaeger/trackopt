@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/loelschlaeger/trackopt/branch/main/graph/badge.svg)](https://app.codecov.io/gh/loelschlaeger/trackopt?branch=main)
 <!-- badges: end -->
 
-The `{trackopt}` package tracks parameter values, gradients, and Hessians at each iteration  of numerical optimizers in `R`. This can be useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
+The `{trackopt}` package tracks parameter value, gradient, and Hessian at each iteration  of numerical optimizers in `R`. This can be useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
 
 ## Installation
 

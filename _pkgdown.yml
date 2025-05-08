@@ -1,0 +1,11 @@
+template:
+  bootstrap: 5
+
+url: https://loelschlaeger.de/trackopt/
+
+home:
+  title: Track numerical optimization
+
+authors:
+  Lennart Oelschläger:
+    href: https://loelschlaeger.de

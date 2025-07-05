@@ -4,11 +4,7 @@ on:
   pull_request:
     branches: [main, master]
 
-- name: test coverage
-    uses: codecov/codecov-action@v5
-    with:
-      token: ${{ secrets.CODECOV_TOKEN }}
-      slug: loelschlaeger/trackopt
+name: test-coverage
 
 jobs:
   test-coverage:

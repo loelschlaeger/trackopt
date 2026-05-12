@@ -26,7 +26,7 @@ track <- nlm_track(f = himmelblau, p = c(0, 0))
 summary(track)
 #> Iterations: 16
 #> Function improvement: 170 -> 1.521e-07
-#> Computation time: 0.04848 seconds
+#> Computation time: 0.03337 seconds
 #> Initial parameter: 0, 0
 #> Final parameter: 3, 2
 ggplot2::autoplot(track)

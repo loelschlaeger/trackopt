@@ -16,7 +16,6 @@ summary.trackopt <- function(object, ...) {
     check = checkmate::check_tibble(object, min.rows = 1, min.cols = 1),
     var_name = "object"
   )
-  cols <- colnames(object)
 
   ### build summary
   n <- nrow(object)
@@ -24,7 +23,7 @@ summary.trackopt <- function(object, ...) {
     "iterations" = n - 1,
     "start_value" = object[[1, "value"]],
     "end_value" = object[[n, "value"]],
-    "seconds_total" = sum(object[, "seconds"], na.rm = TRUE),
+    "seconds_total" = sum(object[["seconds"]], na.rm = TRUE),
     "start_parameter" = object[[1, "parameter"]][[1]],
     "end_parameter" = object[[n, "parameter"]][[1]]
   )
@@ -128,14 +127,14 @@ autoplot.trackopt <- function(
 
   ### call 1D or 2D autoplot
   if (npar == 1) {
-    autoplot.trackopt_1d(
+    autoplot_trackopt_1d(
       object,
       iteration = iteration,
       xlim = xlim,
       ...
     )
   } else if (npar == 2) {
-    autoplot.trackopt_2d(
+    autoplot_trackopt_2d(
       object,
       iteration = iteration,
       xlim = xlim,
@@ -150,8 +149,9 @@ autoplot.trackopt <- function(
 }
 
 #' @keywords internal
+#' @noRd
 
-autoplot.trackopt_1d <- function(object, iteration, xlim, ...) {
+autoplot_trackopt_1d <- function(object, iteration, xlim, ...) {
   if (is.null(xlim)) {
     range <- range(object$parameter)
     xlim <- c(floor(range[1]), ceiling(range[2]))
@@ -197,8 +197,9 @@ autoplot.trackopt_1d <- function(object, iteration, xlim, ...) {
 }
 
 #' @keywords internal
+#' @noRd
 
-autoplot.trackopt_2d <- function(object, iteration, xlim, xlim2, ...) {
+autoplot_trackopt_2d <- function(object, iteration, xlim, xlim2, ...) {
   if (is.null(xlim)) {
     range <- range(sapply(object$parameter, `[`, 1))
     xlim <- c(floor(range[1]), ceiling(range[2]))

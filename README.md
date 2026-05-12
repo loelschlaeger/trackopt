@@ -11,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/trackopt)](https://CRAN.R-project.o
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/trackopt)](https://CRAN.R-project.org/package=trackopt)
 [![R-CMD-check](https://github.com/loelschlaeger/trackopt/workflows/R-CMD-check/badge.svg)](https://github.com/loelschlaeger/trackopt/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/loelschlaeger/trackopt/branch/main/graph/badge.svg)](https://app.codecov.io/gh/loelschlaeger/trackopt?branch=main)
+coverage](https://codecov.io/gh/loelschlaeger/trackopt/branch/master/graph/badge.svg)](https://app.codecov.io/gh/loelschlaeger/trackopt?branch=master)
 <!-- badges: end -->
 
 The `{trackopt}` package tracks parameter values, gradients, and
@@ -28,7 +28,7 @@ You can install the released package version from
 install.packages("trackopt")
 ```
 
-## Example
+## Examples
 
 The following example tracks `nlm` while it minimizes [Himmelblau’s
 function](https://en.wikipedia.org/wiki/Himmelblau%27s_function):
@@ -37,33 +37,15 @@ function](https://en.wikipedia.org/wiki/Himmelblau%27s_function):
 library("trackopt")
 himmelblau <- function(x) (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
 track <- nlm_track(f = himmelblau, p = c(0, 0))
-print(track)
-#> # A tibble: 17 × 7
-#>    iteration         value     step parameter gradient  hessian       seconds
-#>  *     <dbl>         <dbl>    <dbl> <list>    <list>    <list>          <dbl>
-#>  1         0 170            0       <dbl [2]> <dbl [1]> <dbl [1]>     0      
-#>  2         1  47.4         -1.23e+2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.0298 
-#>  3         2  14.0         -3.34e+1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00260
-#>  4         3   4.91        -9.08e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00246
-#>  5         4   2.26        -2.65e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00244
-#>  6         5   0.951       -1.31e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00237
-#>  7         6   0.272       -6.79e-1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00224
-#>  8         7   0.0650      -2.07e-1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00230
-#>  9         8   0.0168      -4.82e-2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00230
-#> 10         9   0.00400     -1.28e-2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00244
-#> 11        10   0.000948    -3.06e-3 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00236
-#> 12        11   0.000221    -7.28e-4 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00240
-#> 13        12   0.0000512   -1.69e-4 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00247
-#> 14        13   0.0000118   -3.94e-5 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00236
-#> 15        14   0.00000275  -9.05e-6 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00225
-#> 16        15   0.000000628 -2.13e-6 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00233
-#> 17        16   0.000000152 -4.76e-7 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00236
 summary(track)
+#> Optimizer: stats::nlm
 #> Iterations: 16
 #> Function improvement: 170 -> 1.521e-07
-#> Computation time: 0.06551 seconds
+#> Best value: 1.521e-07
+#> Computation time: 0.08447 seconds
 #> Initial parameter: 0, 0
 #> Final parameter: 3, 2
+#> Convergence: function value tolerance
 ggplot2::autoplot(track)
 ```
 
@@ -80,6 +62,22 @@ track <- optim_track(
   gradient = gradient,
   method = "BFGS"
 )
+print(track)
+#> # A tibble: 9 × 13
+#>   iteration value         step parameter gradient hessian       seconds
+#> *     <dbl> <dbl>        <dbl>     <dbl>    <dbl> <list>          <dbl>
+#> 1         0 2      0               0      3       <dbl [1]>     0      
+#> 2         1 0.344 -1.66           -0.6    1.80    <dbl [1 × 1]> 0.00727
+#> 3         2 0.241 -0.103          -0.672  1.01    <dbl [1 × 1]> 0.00156
+#> 4         3 0.212 -0.0293         -0.712  0.437   <dbl [1 × 1]> 0.00151
+#> 5         4 0.207 -0.00524        -0.730  0.159   <dbl [1 × 1]> 0.00166
+#> 6         5 0.206 -0.000679       -0.736  0.0533  <dbl [1 × 1]> 0.00144
+#> 7         6 0.206 -0.0000752      -0.738  0.0172  <dbl [1 × 1]> 0.00225
+#> 8         7 0.206 -0.00000784     -0.739  0.00551 <dbl [1 × 1]> 0.00156
+#> 9         8 0.206 -0.000000802    -0.739  0.00176 <dbl [1 × 1]> 0.00150
+#> # ℹ 6 more variables: parameter_step_norm <dbl>, relative_improvement <dbl>,
+#> #   gradient_norm <dbl>, hessian_det <dbl>, hessian_condition <dbl>,
+#> #   hessian_positive_definite <lgl>
 ggplot2::autoplot(track)
 ```
 

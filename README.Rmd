@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/trackopt)](https://CRAN.R-project.org/package=trackopt)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/trackopt)](https://CRAN.R-project.org/package=trackopt)
 [![R-CMD-check](https://github.com/loelschlaeger/trackopt/workflows/R-CMD-check/badge.svg)](https://github.com/loelschlaeger/trackopt/actions)
-[![Codecov test coverage](https://codecov.io/gh/loelschlaeger/trackopt/branch/main/graph/badge.svg)](https://app.codecov.io/gh/loelschlaeger/trackopt?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/loelschlaeger/trackopt/branch/master/graph/badge.svg)](https://app.codecov.io/gh/loelschlaeger/trackopt?branch=master)
 <!-- badges: end -->
 
 The `{trackopt}` package tracks parameter values, gradients, and Hessians
@@ -36,7 +36,7 @@ You can install the released package version from
 install.packages("trackopt")
 ```
 
-## Example
+## Examples
 
 The following example tracks `nlm` while it minimizes
 [Himmelblau's function](https://en.wikipedia.org/wiki/Himmelblau%27s_function):
@@ -45,7 +45,6 @@ The following example tracks `nlm` while it minimizes
 library("trackopt")
 himmelblau <- function(x) (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
 track <- nlm_track(f = himmelblau, p = c(0, 0))
-print(track)
 summary(track)
 ggplot2::autoplot(track)
 ```
@@ -61,6 +60,7 @@ track <- optim_track(
   gradient = gradient,
   method = "BFGS"
 )
+print(track)
 ggplot2::autoplot(track)
 ```
 

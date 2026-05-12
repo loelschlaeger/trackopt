@@ -3,15 +3,15 @@
 
 nlm_track(): track nlm iterations
 optim_track(): track optim iterations
-summary(): summary of optimization track
-autoplot(): visualization of optimization for one or two parameters
+summary(): summarize an optimization track
+autoplot(): visualize a track with one or two parameters
 
 "><meta property="og:description" content="
 
 nlm_track(): track nlm iterations
 optim_track(): track optim iterations
-summary(): summary of optimization track
-autoplot(): visualization of optimization for one or two parameters
+summary(): summarize an optimization track
+autoplot(): visualize a track with one or two parameters
 
 "><meta property="og:image" content="https://loelschlaeger.de/trackopt/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -21,7 +21,7 @@ autoplot(): visualization of optimization for one or two parameters
 
     <a class="navbar-brand me-2" href="../index.html">trackopt</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,8 +50,8 @@ autoplot(): visualization of optimization for one or two parameters
 
 <ul><li><p><code>nlm_track()</code>: track <code><a href="https://rdrr.io/r/stats/nlm.html" class="external-link">nlm</a></code> iterations</p></li>
 <li><p><code>optim_track()</code>: track <code><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim</a></code> iterations</p></li>
-<li><p><code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>: summary of optimization track</p></li>
-<li><p><code>autoplot()</code>: visualization of optimization for one or two parameters</p></li>
+<li><p><code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>: summarize an optimization track</p></li>
+<li><p><code>autoplot()</code>: visualize a track with one or two parameters</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -105,12 +105,12 @@ autoplot(): visualization of optimization for one or two parameters
 
 <dl><dt id="arg-f">f<a class="anchor" aria-label="anchor" href="#arg-f"></a></dt>
 <dd><p>[<code>function</code>]<br>
-A <code>function</code> to be optimized, returning a single <code>numeric</code> value.</p>
-<p>The first argument of <code>f</code> should be a <code>numeric</code> of the same length
-as <code>p</code>, optionally followed by any other arguments specified by
-the <code>...</code> argument.</p>
-<p>If <code>f</code> is to be optimized over an argument other than the first, or more
-than one argument, this has to be specified via the <code>target</code> argument.</p></dd>
+A <code>function</code> to optimize. It must return a single <code>numeric</code> value.</p>
+<p>By default, the first argument of <code>f</code> is optimized. That argument should
+be a <code>numeric</code> vector of the same length as <code>p</code>. Additional arguments can
+be supplied through <code>...</code>.</p>
+<p>Use <code>target</code> when <code>f</code> should be optimized over another argument or over
+multiple arguments.</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
@@ -120,46 +120,45 @@ The starting parameter values for the target argument(s).</p></dd>
 
 <dt id="arg-target">target<a class="anchor" aria-label="anchor" href="#arg-target"></a></dt>
 <dd><p>[<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>]<br>
-The name(s) of the argument(s) over which <code>f</code> gets optimized.</p>
-<p>This can only be <code>numeric</code> arguments.</p>
-<p>Can be <code>NULL</code> (default), then it is the first argument of <code>f</code>.</p></dd>
+The names of the numeric argument(s) to optimize.</p>
+<p>If <code>NULL</code> (default), the first argument of <code>f</code> is used.</p></dd>
 
 
 <dt id="arg-npar">npar<a class="anchor" aria-label="anchor" href="#arg-npar"></a></dt>
 <dd><p>[<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>]<br>
-The length(s) of the target argument(s).</p>
-<p>Must be specified if more than two target arguments are specified via
-the <code>target</code> argument.</p>
-<p>Can be <code>NULL</code> if there is only one target argument, in which case <code>npar</code> is
-set to be <code>length(p)</code>.</p></dd>
+The length of each target argument.</p>
+<p>Specify <code>npar</code> when optimizing over multiple target arguments so <code>p</code> can
+be split correctly.</p>
+<p>If <code>target</code> contains a single argument and <code>npar</code> is <code>NULL</code>, <code>length(p)</code>
+is used.</p></dd>
 
 
 <dt id="arg-gradient">gradient<a class="anchor" aria-label="anchor" href="#arg-gradient"></a></dt>
 <dd><p>[<code>function</code> | <code>NULL</code>]<br>
 Optionally a <code>function</code> that returns the gradient of <code>f</code>.</p>
-<p>The function call of <code>gradient</code> must be identical to <code>f</code>.</p></dd>
+<p>Its arguments must match the arguments of <code>f</code>.</p></dd>
 
 
 <dt id="arg-hessian">hessian<a class="anchor" aria-label="anchor" href="#arg-hessian"></a></dt>
 <dd><p>[<code>function</code> | <code>NULL</code>]<br>
 Optionally a <code>function</code> that returns the Hessian of <code>f</code>.</p>
-<p>The function call of <code>hessian</code> must be identical to <code>f</code>.</p></dd>
+<p>Its arguments must match the arguments of <code>f</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments to be passed to <code>f</code> (and <code>gradient</code>,
-<code>hessian</code> if specified).</p></dd>
+<dd><p>Additional arguments passed to <code>f</code>, and to <code>gradient</code> and <code>hessian</code> when
+they are specified.</p></dd>
 
 
 <dt id="arg-iterations-max">iterations_max<a class="anchor" aria-label="anchor" href="#arg-iterations-max"></a></dt>
 <dd><p>[<code>integer(1)</code>]<br>
-The maximum number of iterations before termination.</p></dd>
+The maximum number of tracked optimization steps before termination.</p></dd>
 
 
 <dt id="arg-tolerance">tolerance<a class="anchor" aria-label="anchor" href="#arg-tolerance"></a></dt>
 <dd><p>[<code>numeric(1)</code>]<br>
-The minimum allowed absolute change in function value between two iterations
-before termination.</p></dd>
+Tracking stops when the absolute change in function value between two
+consecutive iterations is less than this value.</p></dd>
 
 
 <dt id="arg-typsize-fscale-ndigit-stepmax-steptol">typsize, fscale, ndigit, stepmax, steptol<a class="anchor" aria-label="anchor" href="#arg-typsize-fscale-ndigit-stepmax-steptol"></a></dt>
@@ -168,22 +167,24 @@ before termination.</p></dd>
 
 <dt id="arg-minimize">minimize<a class="anchor" aria-label="anchor" href="#arg-minimize"></a></dt>
 <dd><p>[<code>logical(1)</code>]<br>
-Minimize?</p></dd>
+If <code>TRUE</code>, minimize <code>f</code>; otherwise maximize it.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>[<code>logical(1)</code>]<br>
-Print progress?</p></dd>
+If <code>TRUE</code>, print progress after each iteration.</p></dd>
 
 
 <dt id="arg-lower-upper">lower, upper<a class="anchor" aria-label="anchor" href="#arg-lower-upper"></a></dt>
 <dd><p>[<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> | <code>NULL</code>]<br>
-Optionally lower and upper parameter bounds.</p></dd>
+Optional lower and upper parameter bounds. Scalars are recycled to the
+number of parameters.</p></dd>
 
 
 <dt id="arg-method-control">method, control<a class="anchor" aria-label="anchor" href="#arg-method-control"></a></dt>
 <dd><p>Arguments passed on to <code><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim</a></code>.</p>
-<p>Elements <code>trace</code> and <code>maxit</code> are ignored in <code>control</code>.</p></dd>
+<p>Elements <code>trace</code> and <code>maxit</code> are ignored in <code>control</code> because
+<code>optim_track()</code> controls tracing and iteration limits directly.</p></dd>
 
 
 <dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
@@ -195,8 +196,8 @@ A <code>trackopt</code> object.</p></dd>
 <dd><p>[<code>integer(1)</code>]<br>
 The iteration to plot.</p>
 <p>If <code>NULL</code>, the last iteration is plotted.</p>
-<p>This option is useful for creating animations, see
-<a href="https://bookdown.org/yihui/rmarkdown-cookbook/animation.html#ref-R-animation" class="external-link">https://bookdown.org/yihui/rmarkdown-cookbook/animation.html#ref-R-animation</a>.</p></dd>
+<p>This option is useful for creating animations with the R Markdown
+<code>animation</code> chunk option.</p></dd>
 
 
 <dt id="arg-xlim-xlim-">xlim, xlim2<a class="anchor" aria-label="anchor" href="#arg-xlim-xlim-"></a></dt>
@@ -207,17 +208,19 @@ Ranges for the first and second parameter to plot.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>tibble</code> with iterations in rows.</p>
+    <p>A <code>tibble</code> with one row per stored iteration, including the starting point.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">himmelblau</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">11</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">7</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">himmelblau</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">11</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">7</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="va">track</span> <span class="op">&lt;-</span> <span class="fu">nlm_track</span><span class="op">(</span>f <span class="op">=</span> <span class="va">himmelblau</span>, p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">track</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Iterations: 16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Function improvement: 170 -&gt; 1.521e-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Computation time: 0.07208 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computation time: 0.0809 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Initial parameter: 0, 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Final parameter: 3, 2</span>
 <span class="r-in"><span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">track</span><span class="op">)</span></span></span>
@@ -233,7 +236,7 @@ Ranges for the first and second parameter to plot.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

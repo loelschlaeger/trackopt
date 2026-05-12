@@ -38,12 +38,21 @@ summary.trackopt <- function(object, ...) {
 #' @exportS3Method print summary.trackopt
 
 print.summary.trackopt <- function(x, ...) {
+  value_change <- sprintf("%.4g -> %.4g", x$start_value, x$end_value)
+  initial_parameter <- paste(
+    sprintf("%.4g", x$start_parameter),
+    collapse = ", "
+  )
+  final_parameter <- paste(
+    sprintf("%.4g", x$end_parameter),
+    collapse = ", "
+  )
   cli::cat_line(
     "Iterations: ", x$iterations,
-    "\nFunction improvement: ", sprintf("%.4g -> %.4g", x$start_value, x$end_value),
+    "\nFunction improvement: ", value_change,
     "\nComputation time: ", sprintf("%.4g seconds", x$seconds_total),
-    "\nInitial parameter: ", paste(sprintf("%.4g", x$start_parameter), collapse = ", "),
-    "\nFinal parameter: ", paste(sprintf("%.4g", x$end_parameter), collapse = ", ")
+    "\nInitial parameter: ", initial_parameter,
+    "\nFinal parameter: ", final_parameter
   )
   invisible(x)
 }
@@ -60,8 +69,8 @@ print.summary.trackopt <- function(x, ...) {
 #'
 #' If `NULL`, the last iteration is plotted.
 #'
-#' This option is useful for creating animations, see
-#' \url{https://bookdown.org/yihui/rmarkdown-cookbook/animation.html#ref-R-animation}.
+#' This option is useful for creating animations with the R Markdown
+#' `animation` chunk option.
 #'
 #' @export
 
@@ -95,7 +104,11 @@ autoplot.trackopt <- function(
     iteration <- max(iterations)
   }
   oeli::input_check_response(
-    check = checkmate::check_int(iteration, lower = 0, upper = max(iterations)),
+    check = checkmate::check_int(
+      iteration,
+      lower = 0,
+      upper = max(iterations)
+    ),
     var_name = "iteration"
   )
   oeli::input_check_response(
@@ -130,7 +143,7 @@ autoplot.trackopt <- function(
       ...
     )
   } else {
-    cli::cli_warn("Currently not available for more than 2 parameter")
+    cli::cli_warn("Currently not available for more than two parameters")
     return(NULL)
   }
 
@@ -153,13 +166,24 @@ autoplot.trackopt_1d <- function(object, iteration, xlim, ...) {
   gradient_info <- NULL
   hessian_info <- NULL
   if (checkmate::test_number(gradient_value)) {
-    gradient_info <- paste("\nGradient:", format(round(gradient_value, 2), scientific = FALSE))
+    gradient_value <- format(
+      round(gradient_value, 2),
+      scientific = FALSE
+    )
+    gradient_info <- paste("\nGradient:", gradient_value)
     hessian_value <- data[[iteration + 1, "hessian"]]
     if (checkmate::test_number(hessian_value)) {
-      hessian_info <- paste("\nHessian:", format(round(hessian_value, 2), scientific = FALSE))
+      hessian_value <- format(
+        round(hessian_value, 2),
+        scientific = FALSE
+      )
+      hessian_info <- paste("\nHessian:", hessian_value)
     }
   }
-  ggplot2::ggplot(data = data, mapping = ggplot2::aes(x = parameter, y = value)) +
+  ggplot2::ggplot(
+    data = data,
+    mapping = ggplot2::aes(x = parameter, y = value)
+  ) +
     ggplot2::geom_function(fun = function(x) sapply(x, f), xlim = xlim) +
     ggplot2::geom_point(color = "red", size = 2) +
     ggplot2::geom_path(color = "red") +
@@ -193,17 +217,29 @@ autoplot.trackopt_2d <- function(object, iteration, xlim, xlim2, ...) {
   grid <- expand.grid(x = x_seq, y = y_seq)
   grid$z <- apply(grid, 1, function(row) f(row["x"], row["y"]))
   param_matrix <- do.call(rbind, data$parameter)
-  data_plot <- data.frame(x = param_matrix[, 1], y = param_matrix[, 2], value = data$value)
+  data_plot <- data.frame(
+    x = param_matrix[, 1],
+    y = param_matrix[, 2],
+    value = data$value
+  )
   iteration_info <- paste("Iteration:", iteration)
   gradient_info <- NULL
   hessian_info <- NULL
   gradient_value <- data[[iteration + 1, "gradient"]]
   if (checkmate::test_numeric(gradient_value, len = 2)) {
     grad_norm <- sqrt(sum(gradient_value^2))
-    gradient_info <- paste("\nGradient norm:", format(round(grad_norm, 2), scientific = FALSE))
+    grad_norm <- format(
+      round(grad_norm, 2),
+      scientific = FALSE
+    )
+    gradient_info <- paste("\nGradient norm:", grad_norm)
     hessian_value <- data[[iteration + 1, "hessian"]]
     if (checkmate::test_matrix(hessian_value, nrows = 2, ncols = 2)) {
-      hessian_info <- paste("\nHessian determinant:", format(round(det(hessian_value), 2), scientific = FALSE))
+      hessian_det <- format(
+        round(det(hessian_value), 2),
+        scientific = FALSE
+      )
+      hessian_info <- paste("\nHessian determinant:", hessian_det)
     }
   }
   ggplot2::ggplot(data = data_plot, mapping = ggplot2::aes(x = x, y = y)) +

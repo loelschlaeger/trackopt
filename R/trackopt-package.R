@@ -1,3 +1,4 @@
+#' @inherit nlm_track examples
 #' @keywords internal
 "_PACKAGE"
 

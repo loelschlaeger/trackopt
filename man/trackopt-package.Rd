@@ -8,7 +8,15 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Tracks parameter value, gradient, and Hessian at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
+Tracks parameter values, gradients, and Hessians at each iteration of numerical optimizers. Useful for analyzing optimization progress, diagnosing issues, and studying convergence behavior.
+}
+\examples{
+himmelblau <- function(x) {
+  (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
+}
+track <- nlm_track(f = himmelblau, p = c(0, 0))
+summary(track)
+ggplot2::autoplot(track)
 }
 \seealso{
 Useful links:

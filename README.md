@@ -14,10 +14,10 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/trackopt)](https://CRAN
 coverage](https://codecov.io/gh/loelschlaeger/trackopt/branch/main/graph/badge.svg)](https://app.codecov.io/gh/loelschlaeger/trackopt?branch=main)
 <!-- badges: end -->
 
-The `{trackopt}` package tracks parameter value, gradient, and Hessian
-at each iteration of numerical optimizers in `R`. This can be useful for
-analyzing optimization progress, diagnosing issues, and studying
-convergence behavior.
+The `{trackopt}` package tracks parameter values, gradients, and
+Hessians at each iteration of numerical optimizers in `R`. This can be
+useful for analyzing optimization progress, diagnosing issues, and
+studying convergence behavior.
 
 ## Installation
 
@@ -30,7 +30,7 @@ install.packages("trackopt")
 
 ## Example
 
-The following is the `nlm` minimization track of the [Himmelblau’s
+The following example tracks `nlm` while it minimizes [Himmelblau’s
 function](https://en.wikipedia.org/wiki/Himmelblau%27s_function):
 
 ``` r
@@ -39,49 +39,54 @@ himmelblau <- function(x) (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
 track <- nlm_track(f = himmelblau, p = c(0, 0))
 print(track)
 #> # A tibble: 17 × 7
-#>    iteration         value     step parameter gradient  hessian        seconds
-#>  *     <dbl>         <dbl>    <dbl> <list>    <list>    <list>           <dbl>
-#>  1         0 170            0       <dbl [2]> <dbl [1]> <dbl [1]>     0       
-#>  2         1  47.4         -1.23e+2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.0262  
-#>  3         2  14.0         -3.34e+1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00121 
-#>  4         3   4.91        -9.08e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00163 
-#>  5         4   2.26        -2.65e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00121 
-#>  6         5   0.951       -1.31e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00101 
-#>  7         6   0.272       -6.79e-1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.000975
-#>  8         7   0.0650      -2.07e-1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.000962
-#>  9         8   0.0168      -4.82e-2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.000993
-#> 10         9   0.00400     -1.28e-2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00103 
-#> 11        10   0.000948    -3.06e-3 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.000979
-#> 12        11   0.000221    -7.28e-4 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00192 
-#> 13        12   0.0000512   -1.69e-4 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00101 
-#> 14        13   0.0000118   -3.94e-5 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00114 
-#> 15        14   0.00000275  -9.05e-6 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.000990
-#> 16        15   0.000000628 -2.13e-6 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.000982
-#> 17        16   0.000000152 -4.76e-7 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.000979
+#>    iteration         value     step parameter gradient  hessian       seconds
+#>  *     <dbl>         <dbl>    <dbl> <list>    <list>    <list>          <dbl>
+#>  1         0 170            0       <dbl [2]> <dbl [1]> <dbl [1]>     0      
+#>  2         1  47.4         -1.23e+2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.0298 
+#>  3         2  14.0         -3.34e+1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00260
+#>  4         3   4.91        -9.08e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00246
+#>  5         4   2.26        -2.65e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00244
+#>  6         5   0.951       -1.31e+0 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00237
+#>  7         6   0.272       -6.79e-1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00224
+#>  8         7   0.0650      -2.07e-1 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00230
+#>  9         8   0.0168      -4.82e-2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00230
+#> 10         9   0.00400     -1.28e-2 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00244
+#> 11        10   0.000948    -3.06e-3 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00236
+#> 12        11   0.000221    -7.28e-4 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00240
+#> 13        12   0.0000512   -1.69e-4 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00247
+#> 14        13   0.0000118   -3.94e-5 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00236
+#> 15        14   0.00000275  -9.05e-6 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00225
+#> 16        15   0.000000628 -2.13e-6 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00233
+#> 17        16   0.000000152 -4.76e-7 <dbl [2]> <dbl [2]> <dbl [2 × 2]> 0.00236
 summary(track)
 #> Iterations: 16
 #> Function improvement: 170 -> 1.521e-07
-#> Computation time: 0.04317 seconds
+#> Computation time: 0.06551 seconds
 #> Initial parameter: 0, 0
 #> Final parameter: 3, 2
 ggplot2::autoplot(track)
 ```
 
-<img src="man/figures/README-himmelblau-1.png" width="100%" />
+<img src="man/figures/README-himmelblau-1.png" alt="" width="100%" />
 
-The following is the `optim` maximization track of the
-[Beta-PDF](https://en.wikipedia.org/wiki/Beta_distribution):
+The next example tracks `optim` while it minimizes a quartic polynomial:
 
 ``` r
-optim_track(
-  f = dbeta, p = 0, lower = 0, upper = 1, shape1 = 4, shape2 = 2, method = "Brent", minimize = FALSE
-) |> ggplot2::autoplot()
+polynomial <- function(x) 5 * x^4 + 4 * x^3 + x^2 + 3 * x + 2
+gradient <- function(x) 20 * x^3 + 12 * x^2 + 2 * x + 3
+track <- optim_track(
+  f = polynomial,
+  p = 0,
+  gradient = gradient,
+  method = "BFGS"
+)
+ggplot2::autoplot(track)
 ```
 
-<img src="man/figures/README-beta-1.png" width="100%" />
+<img src="man/figures/README-polynomial-1.png" alt="" width="100%" />
 
 ## Contact
 
-If you have any questions, found a bug, need a feature, [just file an
+If you have questions, find a bug, or need a feature, please [file an
 issue on
 GitHub](https://github.com/loelschlaeger/trackopt/issues/new/choose).

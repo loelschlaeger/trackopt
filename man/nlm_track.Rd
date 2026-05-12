@@ -50,68 +50,68 @@ optim_track(
 }
 \arguments{
 \item{f}{[\code{function}]\cr
-A \code{function} to be optimized, returning a single \code{numeric} value.
+A \code{function} to optimize. It must return a single \code{numeric} value.
 
-The first argument of \code{f} should be a \code{numeric} of the same length
-as \code{p}, optionally followed by any other arguments specified by
-the \code{...} argument.
+By default, the first argument of \code{f} is optimized. That argument should
+be a \code{numeric} vector of the same length as \code{p}. Additional arguments can
+be supplied through \code{...}.
 
-If \code{f} is to be optimized over an argument other than the first, or more
-than one argument, this has to be specified via the \code{target} argument.}
+Use \code{target} when \code{f} should be optimized over another argument or over
+multiple arguments.}
 
 \item{p}{[\code{numeric()}]\cr
 The starting parameter values for the target argument(s).}
 
 \item{target}{[\code{character()} | \code{NULL}]\cr
-The name(s) of the argument(s) over which \code{f} gets optimized.
+The names of the numeric argument(s) to optimize.
 
-This can only be \code{numeric} arguments.
-
-Can be \code{NULL} (default), then it is the first argument of \code{f}.}
+If \code{NULL} (default), the first argument of \code{f} is used.}
 
 \item{npar}{[\code{integer()}]\cr
-The length(s) of the target argument(s).
+The length of each target argument.
 
-Must be specified if more than two target arguments are specified via
-the \code{target} argument.
+Specify \code{npar} when optimizing over multiple target arguments so \code{p} can
+be split correctly.
 
-Can be \code{NULL} if there is only one target argument, in which case \code{npar} is
-set to be \code{length(p)}.}
+If \code{target} contains a single argument and \code{npar} is \code{NULL}, \code{length(p)}
+is used.}
 
 \item{gradient}{[\code{function} | \code{NULL}]\cr
 Optionally a \code{function} that returns the gradient of \code{f}.
 
-The function call of \code{gradient} must be identical to \code{f}.}
+Its arguments must match the arguments of \code{f}.}
 
 \item{hessian}{[\code{function} | \code{NULL}]\cr
 Optionally a \code{function} that returns the Hessian of \code{f}.
 
-The function call of \code{hessian} must be identical to \code{f}.}
+Its arguments must match the arguments of \code{f}.}
 
-\item{...}{Additional arguments to be passed to \code{f} (and \code{gradient},
-\code{hessian} if specified).}
+\item{...}{Additional arguments passed to \code{f}, and to \code{gradient} and \code{hessian} when
+they are specified.}
 
 \item{iterations_max}{[\code{integer(1)}]\cr
-The maximum number of iterations before termination.}
+The maximum number of tracked optimization steps before termination.}
 
 \item{tolerance}{[\code{numeric(1)}]\cr
-The minimum allowed absolute change in function value between two iterations
-before termination.}
+Tracking stops when the absolute change in function value between two
+consecutive iterations is less than this value.}
 
 \item{typsize, fscale, ndigit, stepmax, steptol}{Arguments passed on to \code{\link[stats]{nlm}}.}
 
 \item{minimize}{[\code{logical(1)}]\cr
-Minimize?}
+If \code{TRUE}, minimize \code{f}; otherwise maximize it.}
 
 \item{verbose}{[\code{logical(1)}]\cr
-Print progress?}
+If \code{TRUE}, print progress after each iteration.}
 
 \item{lower, upper}{[\code{numeric()} | \code{NULL}]\cr
-Optionally lower and upper parameter bounds.}
+Optional lower and upper parameter bounds. Scalars are recycled to the
+number of parameters.}
 
 \item{method, control}{Arguments passed on to \code{\link[stats]{optim}}.
 
-Elements \code{trace} and \code{maxit} are ignored in \code{control}.}
+Elements \code{trace} and \code{maxit} are ignored in \code{control} because
+\code{optim_track()} controls tracing and iteration limits directly.}
 
 \item{object}{[\code{trackopt}]\cr
 A \code{trackopt} object.}
@@ -121,8 +121,8 @@ The iteration to plot.
 
 If \code{NULL}, the last iteration is plotted.
 
-This option is useful for creating animations, see
-\url{https://bookdown.org/yihui/rmarkdown-cookbook/animation.html#ref-R-animation}.}
+This option is useful for creating animations with the R Markdown
+\code{animation} chunk option.}
 
 \item{xlim, xlim2}{[\code{numeric(2)}]\cr
 Ranges for the first and second parameter to plot.
@@ -130,18 +130,20 @@ Ranges for the first and second parameter to plot.
 If \code{NULL}, they are derived from the parameter ranges in \code{object}.}
 }
 \value{
-A \code{tibble} with iterations in rows.
+A \code{tibble} with one row per stored iteration, including the starting point.
 }
 \description{
 \itemize{
 \item \code{nlm_track()}: track \code{\link[stats]{nlm}} iterations
 \item \code{optim_track()}: track \code{\link[stats]{optim}} iterations
-\item \code{summary()}: summary of optimization track
-\item \code{autoplot()}: visualization of optimization for one or two parameters
+\item \code{summary()}: summarize an optimization track
+\item \code{autoplot()}: visualize a track with one or two parameters
 }
 }
 \examples{
-himmelblau <- function(x) (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
+himmelblau <- function(x) {
+  (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
+}
 track <- nlm_track(f = himmelblau, p = c(0, 0))
 summary(track)
 ggplot2::autoplot(track)

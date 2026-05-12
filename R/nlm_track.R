@@ -3,78 +3,78 @@
 #' @description
 #' - `nlm_track()`: track \code{\link[stats]{nlm}} iterations
 #' - `optim_track()`: track \code{\link[stats]{optim}} iterations
-#' - `summary()`: summary of optimization track
-#' - `autoplot()`: visualization of optimization for one or two parameters
+#' - `summary()`: summarize an optimization track
+#' - `autoplot()`: visualize a track with one or two parameters
 #'
 #' @param f \[`function`\]\cr
-#' A `function` to be optimized, returning a single `numeric` value.
+#' A `function` to optimize. It must return a single `numeric` value.
 #'
-#' The first argument of `f` should be a `numeric` of the same length
-#' as `p`, optionally followed by any other arguments specified by
-#' the `...` argument.
+#' By default, the first argument of `f` is optimized. That argument should
+#' be a `numeric` vector of the same length as `p`. Additional arguments can
+#' be supplied through `...`.
 #'
-#' If `f` is to be optimized over an argument other than the first, or more
-#' than one argument, this has to be specified via the `target` argument.
+#' Use `target` when `f` should be optimized over another argument or over
+#' multiple arguments.
 #'
 #' @param p \[`numeric()`\]\cr
 #' The starting parameter values for the target argument(s).
 #'
 #' @param target \[`character()` | `NULL`\]\cr
-#' The name(s) of the argument(s) over which `f` gets optimized.
+#' The names of the numeric argument(s) to optimize.
 #'
-#' This can only be `numeric` arguments.
-#'
-#' Can be `NULL` (default), then it is the first argument of `f`.
+#' If `NULL` (default), the first argument of `f` is used.
 #'
 #' @param npar \[`integer()`\]\cr
-#' The length(s) of the target argument(s).
+#' The length of each target argument.
 #'
-#' Must be specified if more than two target arguments are specified via
-#' the `target` argument.
+#' Specify `npar` when optimizing over multiple target arguments so `p` can
+#' be split correctly.
 #'
-#' Can be `NULL` if there is only one target argument, in which case `npar` is
-#' set to be `length(p)`.
+#' If `target` contains a single argument and `npar` is `NULL`, `length(p)`
+#' is used.
 #'
 #' @param gradient \[`function` | `NULL`\]\cr
 #' Optionally a `function` that returns the gradient of `f`.
 #'
-#' The function call of `gradient` must be identical to `f`.
+#' Its arguments must match the arguments of `f`.
 #'
 #' @param hessian \[`function` | `NULL`\]\cr
 #' Optionally a `function` that returns the Hessian of `f`.
 #'
-#' The function call of `hessian` must be identical to `f`.
+#' Its arguments must match the arguments of `f`.
 #'
 #' @param ...
-#' Additional arguments to be passed to `f` (and `gradient`,
-#' `hessian` if specified).
+#' Additional arguments passed to `f`, and to `gradient` and `hessian` when
+#' they are specified.
 #'
 #' @param iterations_max \[`integer(1)`\]\cr
-#' The maximum number of iterations before termination.
+#' The maximum number of tracked optimization steps before termination.
 #'
 #' @param tolerance \[`numeric(1)`\]\cr
-#' The minimum allowed absolute change in function value between two iterations
-#' before termination.
+#' Tracking stops when the absolute change in function value between two
+#' consecutive iterations is less than this value.
 #'
 #' @param typsize,fscale,ndigit,stepmax,steptol
 #' Arguments passed on to \code{\link[stats]{nlm}}.
 #'
 #' @param minimize \[`logical(1)`\]\cr
-#' Minimize?
+#' If `TRUE`, minimize `f`; otherwise maximize it.
 #'
 #' @param verbose \[`logical(1)`\]\cr
-#' Print progress?
+#' If `TRUE`, print progress after each iteration.
 #'
 #' @param object \[`trackopt`\]\cr
 #' A `trackopt` object.
 #'
 #' @return
-#' A `tibble` with iterations in rows.
+#' A `tibble` with one row per stored iteration, including the starting point.
 #'
 #' @export
 #'
 #' @examples
-#' himmelblau <- function(x) (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
+#' himmelblau <- function(x) {
+#'   (x[1]^2 + x[2] - 11)^2 + (x[1] + x[2]^2 - 7)^2
+#' }
 #' track <- nlm_track(f = himmelblau, p = c(0, 0))
 #' summary(track)
 #' ggplot2::autoplot(track)
@@ -103,7 +103,12 @@ nlm_track <- function(
   if (is.null(npar)) {
     npar <- length(p)
   }
-  objective <- optimizeR::Objective$new(f = f, target = target, npar = npar, ...)
+  objective <- optimizeR::Objective$new(
+    f = f,
+    target = target,
+    npar = npar,
+    ...
+  )
   if (!is.null(gradient)) {
     oeli::input_check_response(
       check = checkmate::check_function(gradient),
@@ -235,7 +240,9 @@ nlm_track <- function(
     if (abs(current_step) < tolerance) {
       if (verbose) {
         cli::cli_h3("Termination")
-        cli::cli_alert_success("Absolute change in function value < {tolerance}")
+        cli::cli_alert_success(
+          "Absolute change in function value < {tolerance}"
+        )
       }
       break
     }

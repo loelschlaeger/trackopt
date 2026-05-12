@@ -2,7 +2,12 @@ test_that("one-dim optim track works", {
   f <- function(x) 5*x^4 + 4*x^3 + x^2 + 3*x + 2
   gradient <- function(x) 20*x^3 + 12*x^2 + 2*x + 3
   track <- optim_track(
-    f = f, p = 5, gradient = gradient, method = "Brent", lower = -10, upper = 10
+    f = f,
+    p = 5,
+    gradient = gradient,
+    method = "Brent",
+    lower = -10,
+    upper = 10
   )
   checkmate::expect_tibble(track, ncols = 6)
   checkmate::expect_class(summary(track), "summary.trackopt")

@@ -1,12 +1,14 @@
 #' @rdname nlm_track
 #'
 #' @param lower,upper \[`numeric()` | `NULL`\]\cr
-#' Optionally lower and upper parameter bounds.
+#' Optional lower and upper parameter bounds. Scalars are recycled to the
+#' number of parameters.
 #'
 #' @param method,control
 #' Arguments passed on to \code{\link[stats]{optim}}.
 #'
-#' Elements `trace` and `maxit` are ignored in `control`.
+#' Elements `trace` and `maxit` are ignored in `control` because
+#' `optim_track()` controls tracing and iteration limits directly.
 #'
 #' @export
 
@@ -34,7 +36,12 @@ optim_track <- function(
   if (is.null(npar)) {
     npar <- length(p)
   }
-  objective <- optimizeR::Objective$new(f = f, target = target, npar = npar, ...)
+  objective <- optimizeR::Objective$new(
+    f = f,
+    target = target,
+    npar = npar,
+    ...
+  )
   if (!is.null(gradient)) {
     oeli::input_check_response(
       check = checkmate::check_function(gradient),
@@ -69,7 +76,11 @@ optim_track <- function(
     )
   }
   oeli::input_check_response(
-    check = oeli::check_numeric_vector(upper, any.missing = FALSE, null.ok = TRUE),
+    check = oeli::check_numeric_vector(
+      upper,
+      any.missing = FALSE,
+      null.ok = TRUE
+    ),
     var_name = "upper"
   )
   if (!is.null(upper)) {
@@ -189,7 +200,9 @@ optim_track <- function(
     if (abs(current_step) < tolerance) {
       if (verbose) {
         cli::cli_h3("Termination")
-        cli::cli_alert_success("Absolute change in function value < {tolerance}")
+        cli::cli_alert_success(
+          "Absolute change in function value < {tolerance}"
+        )
       }
       break
     }
